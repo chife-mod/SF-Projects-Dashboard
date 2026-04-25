@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SF Projects — Semantic Force</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0d0d;
+      --surface: rgba(22, 22, 22, 0.85);
+      --surface-hover: rgba(30, 30, 30, 0.95);
+      --border: rgba(255, 255, 255, 0.07);
+      --border-hover: rgba(0, 195, 217, 0.4);
+      --accent: #00c3d9;
+      --accent-dim: rgba(0, 195, 217, 0.12);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.5);
+      --text-muted: rgba(255, 255, 255, 0.28);
+      --radius: 12px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      min-height: 100vh;
+      padding: 0 0 80px;
+    }
+
+    /* ─── Header ─── */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 48px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      display: flex;
+      align-items: flex-start;
+      gap: 4px;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+
+    .logo-pill {
+      background: rgba(30, 30, 30, 0.7);
+      border-radius: 8px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      height: 64px;
+      flex-shrink: 0;
+    }
+
+    .logo-icon-pill {
+      width: 91px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 16px;
+    }
+
+    .logo-text-pill {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 12px 16px;
+    }
+
+    .logo-line-1 {
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.3;
+      color: #ffffff;
+      white-space: nowrap;
+      display: block;
+    }
+
+    .logo-line-2 {
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.3;
+      color: #8f8f8f;
+      white-space: nowrap;
+      display: block;
+    }
+
+    .header-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    /* ─── Main ─── */
+    main {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 36px 48px 0;
+    }
+
+    /* ─── Section ─── */
+    .section {
+      margin-bottom: 48px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .section-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .section-dot.live { background: #22c55e; box-shadow: 0 0 8px rgba(34, 197, 94, 0.6); }
+    .section-dot.local { background: rgba(255,255,255,0.3); }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+
+    .section-title {
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: -0.02em;
+    }
+
+    .section-count {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-left: auto;
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin-bottom: 32px;
+    }
+
+    /* ─── Grid ─── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 20px;
+    }
+
+    /* ─── Card ─── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+    }
+
+    .card:hover {
+      border-color: var(--border-hover);
+      background: var(--surface-hover);
+      transform: translateY(-2px);
+    }
+
+    .card.no-link {
+      cursor: default;
+    }
+
+    .card.no-link:hover {
+      transform: none;
+      border-color: var(--border);
+    }
+
+    /* ─── Cover ─── */
+    .card-cover {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background: #111;
+      position: relative;
+    }
+
+    .card-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.35s ease;
+    }
+
+    .card:hover .card-cover img {
+      transform: scale(1.03);
+    }
+
+    /* ─── Body ─── */
+    .card-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+    }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .card-name {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: -0.01em;
+      line-height: 1.3;
+      flex: 1;
+    }
+
+    .badge {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 8px;
+      border-radius: 100px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+
+    .badge-live {
+      background: rgba(34, 197, 94, 0.12);
+      color: #4ade80;
+      border: 1px solid rgba(34, 197, 94, 0.2);
+    }
+
+    .badge-live::before {
+      content: '';
+      display: block;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #22c55e;
+    }
+
+    .badge-local {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .badge-local::before {
+      content: '';
+      display: block;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+    }
+
+    .card-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.55;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      margin-top: auto;
+    }
+
+    .card-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-muted);
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .card-arrow {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      border: 1px solid rgba(0, 195, 217, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .card:hover .card-arrow {
+      opacity: 1;
+    }
+
+    .card-arrow svg {
+      color: var(--accent);
+    }
+
+    .card.no-link .card-arrow { display: none; }
+
+    /* ─── Hero ─── */
+    .hero {
+      padding: 36px 48px 0;
+      max-width: 1320px;
+      margin: 0 auto;
+    }
+
+    .hero-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .hero-label-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .hero-title {
+      font-size: 42px;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      color: var(--text-primary);
+      margin-bottom: 10px;
+      white-space: nowrap;
+    }
+
+    .hero-title span { color: var(--accent); }
+
+    .hero-sub {
+      font-size: 15px;
+      color: var(--text-secondary);
+      max-width: 520px;
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+
+    .hero-divider {
+      height: 1px;
+      background: linear-gradient(to right, var(--accent-dim), transparent 60%);
+      margin-bottom: 36px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a class="logo" href="https://sf-group.com" target="_blank" rel="noopener">
+      <div class="logo-pill logo-icon-pill">
+        <img src="assets/Logo.svg" alt="SemanticForce" width="59" height="40" />
+      </div>
+      <div class="logo-pill logo-text-pill">
+        <span class="logo-line-1">SemanticForce</span>
+        <span class="logo-line-2">Group</span>
+      </div>
+    </a>
+    <span class="header-meta">Internal project index · chife-mod</span>
+  </header>
+
+  <div class="hero">
+    <div class="hero-label">
+      <div class="hero-label-dot"></div>
+      SF Group · Client Work
+    </div>
+    <h1 class="hero-title">Projects <span>Dashboard</span></h1>
+    <p class="hero-sub">All web projects built for Semantic Force — published and in progress.</p>
+    <div class="hero-divider"></div>
+  </div>
+
+  <main>
+
+    <!-- ─── ONLINE ─── -->
+    <section class="section">
+      <div class="section-header">
+        <h2 class="section-title">Live on GitHub Pages</h2>
+        <div class="section-indicator">
+          <div class="section-dot live"></div>
+          <span class="section-label">Published</span>
+        </div>
+        <span class="section-count">5 projects</span>
+      </div>
+      <div class="divider"></div>
+      <div class="grid">
+
+        <a class="card" href="https://chife-mod.github.io/wwg-2026-novelties-redesign/" target="_blank" rel="noopener">
+          <div class="card-cover">
+            <img src="assets/covers/wwg-novelties.webp" alt="WWG 2026 Novelties Redesign" loading="lazy" />
+          </div>
+          <div class="card-body">
+            <div class="card-top">
+              <div class="badge badge-live">LIVE</div>
+              <div class="card-name">WWG 2026 Novelties Redesign</div>
+            </div>
+            <p class="card-desc">Alternative layout for Watch360 Watches & Wonders Geneva 2026 — visual hierarchy over bar charts, watch photos, interactive novelties catalog.</p>
+            <div class="card-footer">
+              <div class="card-tags">
+                <span class="tag">React</span>
+                <span class="tag">Vite</span>
+                <span class="tag">Tailwind</span>
+              </div>
+              <div class="card-arrow">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M2.5 11.5L11.5 2.5M11.5 2.5H5.5M11.5 2.5V8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <a class="card" href="https://chife-mod.github.io/watch360-linkedin-pdf/" target="_blank" rel="noopener">
+          <div class="card-cover">
+            <img src="assets/covers/watch360-linkedin-pdf.webp" alt="Watch360 LinkedIn PDF" loading="lazy" />
+          </div>
+          <div class="card-body">
+            <div class="card-top">
+              <div class="badge badge-live">LIVE</div>
+              <div class="card-name">Watch360 LinkedIn PDF</div>
+            </div>
+            <p class="card-desc">Monthly watch industry analytics — generates premium PDF slides and animated LinkedIn carousels from Excel data. Covers media coverage, brand rankings, novelties.</p>
+            <div class="card-footer">
+              <div class="card-tags">
+                <span class="tag">Vite</span>
+                <span class="tag">React</span>
+                <span class="tag">PDF</span>
+              </div>
+              <div class="card-arrow">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M2.5 11.5L11.5 2.5M11.5 2.5H5.5M11.5 2.5V8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <a class="card" href="https://chife-mod.github.io/Watch360-PDF-Reports/" target="_blank" rel="noopener">
+          <div class="card-cover">
+            <img src="assets/covers/watch360-pdf-reports.png" alt="Watch360 PDF Reports" loading="lazy" />
+          </div>
+          <div class="card-body">
+            <div class="card-top">
+              <div class="badge badge-live">LIVE</div>
+              <div class="card-name">Watch360 PDF Reports</div>
+            </div>
+            <p class="card-desc">Premium corporate report generator for Watch 360 — dark-theme 720×450px slides from Google Sheets data. White-label template system for 10+ SF brands.</p>
+            <div class="card-footer">
+              <div class="card-tags">
+                <span class="tag">React</span>
+                <span class="tag">Recharts</span>
+                <span class="tag">Puppeteer</span>
+              </div>
+              <div class="card-arrow">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M2.5 11.5L11.5 2.5M11.5 2.5H5.5M11.5 2.5V8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <a class="card" href="https://chife-mod.github.io/Market360_Signal_Selector/" target="_blank" rel="noopener">
+          <div class="card-cover">
+            <img src="assets/covers/market360-signal-selector.png" alt="Market360 Signal Selector" loading="lazy" />
+          </div>
+          <div class="card-body">
+            <div class="card-top">
+              <div class="badge badge-live">LIVE</div>
+              <div class="card-name">Market360 Signal Selector</div>
+            </div>
+            <p class="card-desc">M360 Product Intelligence Platform — signal discovery, competitive analytics, and dashboard for actionable market insights.</p>
+            <div class="card-footer">
+              <div class="card-tags">
+                <span class="tag">Next.js</span>
+                <span class="tag">TypeScript</span>
+                <span class="tag">Tailwind</span>
+              </div>
+              <div class="card-arrow">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M2.5 11.5L11.5 2.5M11.5 2.5H5.5M11.5 2.5V8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <a class="card" href="https://chife-mod.github.io/support-icon/" target="_blank" rel="noopener">
+          <div class="card-cover">
+            <img src="assets/covers/support-icon.png" alt="Support Icon" loading="lazy" />
+          </div>
+          <div class="card-body">
+            <div class="card-top">
+              <div class="badge badge-live">LIVE</div>
+              <div class="card-name">Support Icon</div>
+            </div>
+            <p class="card-desc">Animated live-support button UI component — glass-morphism pill with micro-interactions, ready for embedding into SF product interfaces.</p>
+            <div class="card-footer">
+              <div class="card-tags">
+                <span class="tag">HTML</span>
+                <span class="tag">CSS</span>
+                <span class="tag">UI component</span>
+              </div>
+              <div class="card-arrow">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M2.5 11.5L11.5 2.5M11.5 2.5H5.5M11.5 2.5V8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- ─── LOCAL ─── -->
+    <section class="section">
+      <div class="section-header">
+        <h2 class="section-title">Local / Not yet deployed</h2>
+        <div class="section-indicator">
+          <div class="section-dot local"></div>
+          <span class="section-label">In Progress</span>
+        </div>
+        <span class="section-count">4 projects</span>
+      </div>
+      <div class="divider"></div>
+      <div class="grid">
+
+        <a class="card" href="https://github.com/chife-mod/Tina_Karol_PPT" target="_blank" rel="noopener">
+          <div class="card-cover">
+            <img src="assets/covers/slideforge.png" alt="SlideForge" loading="lazy" />
+          </div>
+          <div class="card-body">
+            <div class="card-top">
+              <div class="badge badge-local">LOCAL</div>
+              <div class="card-name">SlideForge</div>
+            </div>
+            <p class="card-desc">Automatic pitch-deck creator — pixel-perfect Figma-to-slide rendering, AI-generated slide types, PDF export via Puppeteer. Unified SF design system.</p>
+            <div class="card-footer">
+              <div class="card-tags">
+                <span class="tag">Next.js</span>
+                <span class="tag">Puppeteer</span>
+                <span class="tag">Tailwind 4</span>
+              </div>
+              <div class="card-arrow">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M2.5 11.5L11.5 2.5M11.5 2.5H5.5M11.5 2.5V8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <a class="card" href="https://github.com/chife-mod/Logo-Parser" target="_blank" rel="noopener">
+          <div class="card-cover">
+            <img src="assets/covers/logo-parser.png" alt="Logo Parser" loading="lazy" />
+          </div>
+          <div class="card-body">
+            <div class="card-top">
+              <div class="badge badge-local">LOCAL</div>
+              <div class="card-name">Logo Parser</div>
+            </div>
+            <p class="card-desc">Automated brand logo extraction — scrapes brand sites using schema.org, Shopify, header image, and SVG sprite strategies. 95% success rate across tested brands.</p>
+            <div class="card-footer">
+              <div class="card-tags">
+                <span class="tag">Node.js</span>
+                <span class="tag">Scraper</span>
+              </div>
+              <div class="card-arrow">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M2.5 11.5L11.5 2.5M11.5 2.5H5.5M11.5 2.5V8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <a class="card" href="https://github.com/chife-mod/watch360-remotion" target="_blank" rel="noopener">
+          <div class="card-cover" style="background: #111; display: flex; align-items: center; justify-content: center;">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="20" cy="20" r="19" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+              <path d="M16 13.5L27 20L16 26.5V13.5Z" fill="rgba(255,255,255,0.15)"/>
+            </svg>
+          </div>
+          <div class="card-body">
+            <div class="card-top">
+              <div class="badge badge-local">LOCAL</div>
+              <div class="card-name">Watch360 Remotion</div>
+            </div>
+            <p class="card-desc">Animated video slides for LinkedIn — Remotion-based renderer producing motion graphics from watch analytics data. Pairs with the PDF report pipeline.</p>
+            <div class="card-footer">
+              <div class="card-tags">
+                <span class="tag">Remotion</span>
+                <span class="tag">React</span>
+                <span class="tag">Video</span>
+              </div>
+              <div class="card-arrow">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M2.5 11.5L11.5 2.5M11.5 2.5H5.5M11.5 2.5V8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <div class="card no-link">
+          <div class="card-cover">
+            <img src="assets/covers/market360-sheets.png" alt="Market360 Google Sheets" loading="lazy" />
+          </div>
+          <div class="card-body">
+            <div class="card-top">
+              <div class="badge badge-local">LOCAL</div>
+              <div class="card-name">Market360 Google Sheets</div>
+            </div>
+            <p class="card-desc">Formatted analytics report in Google Sheets for Market 360 — Bilstein search-demand data, keyword × geo × monthly volume, branded for client presentation.</p>
+            <div class="card-footer">
+              <div class="card-tags">
+                <span class="tag">Google Sheets</span>
+                <span class="tag">Analytics</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+</body>
+</html>
